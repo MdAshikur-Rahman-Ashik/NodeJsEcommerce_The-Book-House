@@ -1,0 +1,35 @@
+<%- include("layouts/header.ejs") %>
+<main>
+  <div class="vegetables_section layout_padding">
+    <div class="container">
+      <div class="image_2"><img src="" /></div>
+      <h1 class="about_taital">Our Books</h1>
+      <p class="lorem_text"></p>
+      <div class="vegetables_section_2 layout_padding">
+        <div class="row">
+          <% products.forEach(product => { %>
+          <div class="col">
+            <div class="box_section">
+              <div class="image_4"><img src="<%= product.image_path %>" /></div>
+              <h2 class="dolor_text"><%= product.product_price %> TK</h2>
+              <h2 class="dolor_text"><%= product.product_title %></h2>
+              <p class="tempor_text"><%= product.product_description %></p>
+              <form action="/cart/add" method="POST" class="text-center">
+                <input
+                  type="hidden"
+                  name="productId"
+                  value="<%= product.id %>"
+                />
+                <button type="submit" class="btn btn-lg btn-dark">
+                  Add to Cart
+                </button>
+              </form>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include("layouts/footer.ejs") %>

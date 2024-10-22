@@ -1,0 +1,321 @@
+<%- include("layouts/header.ejs") %>
+<main>
+  <section class="h-100 h-custom mt-5" style="background-color: #eee">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+          <div class="card">
+            <div class="card-body p-4">
+              <div class="row">
+                <div class="col-lg-7">
+                  <h5 class="mb-3">
+                    <a href="/shop" class="text-body">Continue shopping</a>
+                  </h5>
+                  <hr />
+
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-4"
+                  >
+                    <div>
+                      <p class="mb-1">Shopping cart</p>
+                      <% if (cartItems.length > 0) { %>
+                      <p class="mb-0">
+                        You have <%= cartItems.length %> items in your cart
+                      </p>
+                      <% } else { %>
+                      <p class="mb-0">Your cart is empty</p>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <% if (cartItems.length > 0) { %> <% cartItems.forEach(item =>
+                  { %>
+                  <div class="card mb-3 cart-item">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                          <div>
+                            <img
+                              src="<%= item.image_path %>"
+                              class="img-fluid rounded-3"
+                              alt="Shopping item"
+                              style="width: 65px"
+                            />
+                          </div>
+                          <div class="ms-3">
+                            <h5 class="pl-2"><%= item.product_title %></h5>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                          <div style="width: 115px">
+                            <div class="input-group">
+                              <button
+                                class="btn btn-outline-secondary"
+                                type="button"
+                                onclick="decrementQuantity('<%= item.id %>')"
+                              >
+                                -
+                              </button>
+                              <input
+                                type="text"
+                                class="form-control quantity"
+                                value="<%= item.quantity %>"
+                                readonly
+                              />
+                              <button
+                                class="btn btn-outline-secondary"
+                                type="button"
+                                onclick="incrementQuantity('<%= item.id %>')"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+
+                          <div style="width: 80px">
+                            <h5 class="mb-0 price">
+                              TK <%= item.product_price %>
+                            </h5>
+                          </div>
+                          <a
+                            href="#!"
+                            class="delete-item"
+                            data-product-id="<%= item.id %>"
+                            style="color: #cecece"
+                            ><i class="fas fa-trash-alt"></i>Delete</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% }); %> <% } %>
+                </div>
+
+                <div class="col-lg-5">
+                  <div class="card CheckoutBg text-white rounded-3">
+                    <div class="card-body">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-4"
+                      >
+                        <h5 class="mb-0">Card details</h5>
+                        <img class="img-fluid rounded-3" style="width: 45px" />
+                      </div>
+
+                      <p class="small mb-2">Card type</p>
+                      <a href="#!" type="submit" class="text-white"
+                        ><i class="fab fa-cc-mastercard fa-2x me-2"></i
+                      ></a>
+                      <a href="#!" type="submit" class="text-white"
+                        ><i class="fab fa-cc-visa fa-2x me-2"></i
+                      ></a>
+                      <a href="#!" type="submit" class="text-white"
+                        ><i class="fab fa-cc-amex fa-2x me-2"></i
+                      ></a>
+                      <a href="#!" type="submit" class="text-white"
+                        ><i class="fab fa-cc-paypal fa-2x"></i
+                      ></a>
+
+                      <form class="mt-4">
+                        <div
+                          data-mdb-input-init
+                          class="form-outline form-white mb-4"
+                        >
+                          <input
+                            type="text"
+                            id="typeName"
+                            class="form-control form-control-lg"
+                            siez="17"
+                            placeholder="Cardholder's Name"
+                          />
+                          <label class="form-label" for="typeName"
+                            >Cardholder's Name</label
+                          >
+                        </div>
+
+                        <div
+                          data-mdb-input-init
+                          class="form-outline form-white mb-4"
+                        >
+                          <input
+                            type="text"
+                            id="typeText"
+                            class="form-control form-control-lg"
+                            siez="17"
+                            placeholder="1234 5678 9012 3457"
+                            minlength="19"
+                            maxlength="19"
+                          />
+                          <label class="form-label" for="typeText"
+                            >Card Number</label
+                          >
+                        </div>
+
+                        <div class="row mb-4">
+                          <div class="col-md-6">
+                            <div
+                              data-mdb-input-init
+                              class="form-outline form-white"
+                            >
+                              <input
+                                type="text"
+                                id="typeExp"
+                                class="form-control form-control-lg"
+                                placeholder="MM/YYYY"
+                                size="7"
+                                id="exp"
+                                minlength="7"
+                                maxlength="7"
+                              />
+                              <label class="form-label" for="typeExp"
+                                >Expiration</label
+                              >
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div
+                              data-mdb-input-init
+                              class="form-outline form-white"
+                            >
+                              <input
+                                type="password"
+                                id="typeText"
+                                class="form-control form-control-lg"
+                                placeholder="&#9679;&#9679;&#9679;"
+                                size="1"
+                                minlength="3"
+                                maxlength="3"
+                              />
+                              <label class="form-label" for="typeText"
+                                >Cvv</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+
+                      <hr class="my-4" />
+
+                      <div class="d-flex justify-content-between mb-2">
+                        <p class="mb-0">Subtotal</p>
+                        <p class="mb-0" id="subtotal">0.00</p>
+                      </div>
+
+                      <div class="d-flex justify-content-between mb-2">
+                        <p class="mb-0">Shipping</p>
+                        <p class="mb-0" id="shipping">100.00</p>
+                      </div>
+
+                      <div class="d-flex justify-content-between mb-4">
+                        <p class="mb-0">Total (Incl. taxes)</p>
+                        <p class="mb-0" id="total">0.00</p>
+                      </div>
+
+                      <button
+                        type="button"
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        class="btn btn-info btn-block btn-lg"
+                      >
+                        <div class="d-flex justify-content-between">
+                          <span
+                            >Checkout
+                            <i class="fas fa-long-arrow-alt-right ms-2"></i
+                          ></span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function incrementQuantity(productId) {
+      fetch("/cart/increment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: productId }),
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        }
+      });
+    }
+
+    function decrementQuantity(productId) {
+      fetch("/cart/decrement", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: productId }),
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const subtotalElement = document.getElementById("subtotal");
+      const shippingElement = document.getElementById("shipping");
+      const totalElement = document.getElementById("total");
+
+      const calculateTotals = () => {
+        const subtotal = calculateSubtotal();
+        const shipping = 100;
+        const total = subtotal + shipping;
+        subtotalElement.textContent = "TK" + subtotal.toFixed(2);
+        shippingElement.textContent = "TK" + shipping.toFixed(2);
+        totalElement.textContent = "TK" + total.toFixed(2);
+      };
+
+      const calculateSubtotal = () => {
+        let subtotal = 0;
+        const cartItems = document.querySelectorAll(".cart-item");
+        cartItems.forEach((item) => {
+          const quantity = parseInt(item.querySelector(".quantity").value);
+          const price = parseFloat(
+            item.querySelector(".price").textContent.replace("TK", "")
+          );
+          subtotal += quantity * price;
+        });
+        return subtotal;
+      };
+
+      calculateTotals();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const deleteItem = (productId) => {
+        fetch("/cart/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId: productId }),
+        }).then((response) => {
+          if (response.ok) {
+            window.location.reload();
+          }
+        });
+      };
+
+      const deleteButtons = document.querySelectorAll(".delete-item");
+      deleteButtons.forEach((button) => {
+        const productId = button.dataset.productId;
+        button.addEventListener("click", () => {
+          deleteItem(productId);
+        });
+      });
+    });
+  </script>
+</main>
+<%- include("layouts/footer.ejs") %>

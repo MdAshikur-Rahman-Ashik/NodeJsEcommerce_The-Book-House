@@ -1,0 +1,71 @@
+<style>
+    .details.header_section ul{
+        list-style: none;
+    }
+    .details.header_section ul li{
+        display: inline-block;
+        padding: 5px 7px;
+    }
+    .details.header_section ul li a{
+        text-decoration: none;
+    }
+    #detailsPage{
+        width: 1200px;
+        margin: 0 auto;
+    }
+    #detailsImg{
+        width: 300px;
+        height: 300px;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+    }
+</style>
+<div class="details header_section">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop">SHOP</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Admin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">Cart</a>
+            </li>        
+            
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+<main id="detailsPage">
+
+
+
+<div class="contiainer">
+    <div class="row">
+        <div class="col-md-12">
+            <h1><%= product.product_title %></h1>
+            <img src="<%= product.image_path %>" id="detailsImg" alt="<%= product.product_title %>">
+            <p><%= product.product_description %></p>
+            <p>Price: <%= product.product_price %> TK</p>
+            <form action="/cart/add" method="POST" class="text-center">
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                <button type="submit" class="btn btn-lg btn-dark">Add to Cart</button>
+              </form>
+        </div>
+    </div>
+</div>
+      
+
+
+</main>

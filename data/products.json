@@ -1,0 +1,23 @@
+[
+  {
+    "id": "PROD_1",
+    "product_title": "This is HTML BOOK",
+    "product_price": 25.5,
+    "product_description": "Html book for new version",
+    "image_path": "/uploads/product-123.jpg"
+  },
+  {
+    "id": "PROD_2",
+    "product_title": "Javascript new version",
+    "product_price": 50.51,
+    "product_description": "This is another sample js book",
+    "image_path": "/uploads/product-456.jpg"
+  },
+  {
+    "id": "PROD_1714405307531_933",
+    "product_title": "Csharp Book",
+    "product_price": "566",
+    "product_description": "This book very helpful for Csharp student",
+    "image_path": "uploads/product-1714405307529.jpg"
+  }
+]

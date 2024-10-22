@@ -1,0 +1,180 @@
+<%- include("../layouts/header.ejs") %>
+<main>
+  <section class="mb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="product_form card">
+            <div class="card-body">
+              <form
+                id="productForm"
+                method="POST"
+                enctype="multipart/form-data"
+                action="/admin/product/upload"
+              >
+                <input type="hidden" name="productId" id="productId" />
+                <div class="form-group">
+                  <label for="product_name">Book Title</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="product_name"
+                    placeholder="Product Name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="product_price">Book Price</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    name="product_price"
+                    placeholder="Product price"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="product_description">Book Description</label>
+                  <textarea
+                    class="form-control"
+                    name="product_description"
+                    placeholder="Description"
+                    required
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="image">Book Image</label>
+                  <input type="file" name="image" id="image" accept="image/*" />
+                  <img
+                    id="imagePreview"
+                    src="#"
+                    alt="Product Image"
+                    style="display: none; max-width: 100px; max-height: 100px"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <button
+                    id="submitButton"
+                    type="submit"
+                    class="btn btn-lg btn-success"
+                  >
+                    Save Product
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="admin_products">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <% products.forEach(product => { %>
+              <tr>
+                <td><%= product.id %></td>
+                <td><%= product.product_title %></td>
+                <td>
+                  <img
+                    src="<%= product.image_path %>"
+                    alt="Product Image"
+                    style="max-width: 100px; max-height: 100px"
+                  />
+                </td>
+                <td><%= product.product_price %></td>
+                <td>
+                  <button
+                    class="editButton btn btn-success"
+                    data-id="<%= product.id %>"
+                  >
+                    Edit
+                  </button>
+                  <form
+                    action="/admin/product/delete/<%= product.id %>"
+                    method="POST"
+                    style="display: inline"
+                  >
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  function enableEditMode(productId) {
+    document.getElementById("productId").value = productId;
+    const form = document.getElementById("productForm");
+    form.action = `/admin/product/edit/${productId}`;
+    const submitButton = document.getElementById("submitButton");
+    submitButton.textContent = "Update Product";
+
+    fetch(`/admin/product/${productId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        form.product_name.value = data.product_title;
+        form.product_price.value = data.product_price;
+        form.product_description.value = data.product_description;
+        const imagePreview = document.getElementById("imagePreview");
+        imagePreview.src = data.image_path;
+        imagePreview.style.display = "block";
+      })
+      .catch((error) => {
+        console.error("Error fetching product data:", error);
+      });
+  }
+
+  const editButtons = document.querySelectorAll(".editButton");
+  editButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.getAttribute("data-id");
+      enableEditMode(productId);
+    });
+  });
+
+  document
+    .getElementById("productForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const productId = this.action.split("/").pop();
+      const isEditMode = this.action.includes("edit");
+      const method = isEditMode ? "PUT" : "POST";
+      fetch(`/admin/product/${isEditMode ? "edit/" + productId : "upload"}`, {
+        method: method,
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to update product data");
+          }
+          window.location.href = "/admin";
+        })
+        .catch((error) => {
+          console.error("Error updating/uploading product data:", error);
+        });
+    });
+</script>
+
+<%- include("../layouts/footer.ejs") %>
