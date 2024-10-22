@@ -19,5 +19,12 @@
     "product_price": "566",
     "product_description": "This book very helpful for Csharp student",
     "image_path": "uploads/product-1714405307529.jpg"
+  },
+  {
+    "id": "PROD_1729586346170_39",
+    "product_title": "HTML 5",
+    "product_price": "5622",
+    "product_description": "This is best HTML Book",
+    "image_path": "uploads/product-1729586346168.jpg"
   }
 ]

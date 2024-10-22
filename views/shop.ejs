@@ -2,28 +2,30 @@
 <main>
   <div class="vegetables_section layout_padding">
     <div class="container">
-      <div class="image_2"><img src="" /></div>
-      <h1 class="about_taital">Our Books</h1>
-      <p class="lorem_text"></p>
+      <div class="image_2 mb-4"></div>
+      <h1 class="about_taital text-center mb-5">Our Books</h1>
+      <p class="lorem_text text-center mb-5">Explore our collection of top-quality books that cater to every reader's taste.</p>
       <div class="vegetables_section_2 layout_padding">
         <div class="row">
           <% products.forEach(product => { %>
-          <div class="col">
-            <div class="box_section">
-              <div class="image_4"><img src="<%= product.image_path %>" /></div>
-              <h2 class="dolor_text"><%= product.product_price %> TK</h2>
-              <h2 class="dolor_text"><%= product.product_title %></h2>
-              <p class="tempor_text"><%= product.product_description %></p>
-              <form action="/cart/add" method="POST" class="text-center">
-                <input
-                  type="hidden"
-                  name="productId"
-                  value="<%= product.id %>"
-                />
-                <button type="submit" class="btn btn-lg btn-dark">
-                  Add to Cart
-                </button>
-              </form>
+          <div class="col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="box_section card h-100 shadow-lg hover-card">
+              <div class="image_4">
+                <img src="<%= product.image_path %>" class="card-img-top" alt="Product Image" />
+              </div>
+              <div class="card-body text-center">
+                <h2 class="dolor_text"><%= product.product_price %> TK</h2>
+                <h3 class="dolor_text"><%= product.product_title %></h3>
+                <p class="tempor_text"><%= product.product_description %></p>
+              </div>
+              <div class="card-footer bg-transparent border-0 text-center">
+                <form action="/cart/add" method="POST" class="text-center">
+                  <input type="hidden" name="productId" value="<%= product.id %>" />
+                  <button type="submit" class="btn btn-lg btn-dark">
+                    Add to Cart
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
           <% }); %>
@@ -33,3 +35,45 @@
   </div>
 </main>
 <%- include("layouts/footer.ejs") %>
+
+<style>
+  /* Card Hover Effect */
+  .hover-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .hover-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-img-top {
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  /* Button hover effect */
+  .btn-dark {
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .btn-dark:hover {
+    background-color: #5a5a5a;
+    color: white;
+  }
+
+  /* Additional Spacing */
+  .dolor_text {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .tempor_text {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+
+  .layout_padding {
+    padding: 40px 0;
+  }
+</style>
